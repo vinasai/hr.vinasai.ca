@@ -194,13 +194,15 @@ function downloadCurrentOfferLetter() {
                     </div>
                 </div>
 
+                <p>Date: ${new Date().toLocaleDateString('en-GB')}</p>
                 <p>
                     <strong>To</strong><br>
                     ${employeeName}<br>
                     ${formattedAddress}
                 </p>
-                <p>Dear ${employeeName.split(' ')[0]},</p>
+               
                 <h2>Offer of Employment</h2>
+                 <p>Dear ${employeeName.split(' ')[0]},</p>
                 <p>
                     Our company, VinaSai Inc, is pleased to extend an agreement of employment to <strong>${employeeName}</strong>, holder of NIC number <strong>${employeeNic || 'xxxxxxxxxxx'}</strong> and residing at <strong>${formattedAddress.replace(/<br>/g, ', ')}</strong>, Sri Lanka.
                 </p>
@@ -370,7 +372,7 @@ function downloadCurrentAgreementLetter() {
                     </div>
                 </div>
 
-
+    <p>Date: ${new Date().toLocaleDateString('en-GB')}</p>
                 <p>
                     <strong>To:</strong><br>
                     ${employeeName}<br>
@@ -483,5 +485,4 @@ function downloadCurrentAgreementLetter() {
     
     console.log('Agreement letter window opened for download');
 }
-</script>
 </script>
