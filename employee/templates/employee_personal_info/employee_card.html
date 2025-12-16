@@ -368,12 +368,12 @@
                       <li class="oh-dropdown__item">
                         <a href="{% url 'employee-view-update' emp.id %}" class="oh-dropdown__link">{% trans "Edit" %}</a>
                       </li>
-                      <li class="oh-dropdown__item">
+                      <!-- <li class="oh-dropdown__item">
                         <a href="#" class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#agreementModal" onclick="event.stopPropagation(); populateAgreementModal('{{ emp.get_full_name|escapejs }}', '{{ emp.email|escapejs }}', '{{ emp.address|escapejs }}', '{{ emp.country|escapejs }}', '{{ emp.state|escapejs }}', '{{ emp.city|escapejs }}', '{{ emp.zip|escapejs }}', '{{ emp.nic_number|escapejs }}', '{{ emp.employee_work_info.department_id|escapejs }}', '{{ emp.employee_work_info.job_position_id|escapejs }}', '{{ emp.employee_work_info.basic_salary|default:10000 }}')">{%trans "Offer Letter" %}</a>
                       </li>
                       <li class="oh-dropdown__item">
                         <a href="#" class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#agreementModal" onclick="event.stopPropagation(); populateAgreementLetterModal('{{ emp.get_full_name|escapejs }}', '{{ emp.email|escapejs }}', '{{ emp.address|escapejs }}', '{{ emp.country|escapejs }}', '{{ emp.state|escapejs }}', '{{ emp.city|escapejs }}', '{{ emp.zip|escapejs }}', '{{ emp.nic_number|escapejs }}', '{{ emp.employee_work_info.department_id|escapejs }}', '{{ emp.employee_work_info.job_position_id|escapejs }}', '{{ emp.employee_work_info.basic_salary|default:10000 }}')">{%trans "Agreement Letter" %}</a>
-                      </li>
+                      </li> -->
                     {% endif %}
                     {% if profile_edit_enabled %}
                       {% if perms.employee.change_employee or request.user|check_manager:emp %}
