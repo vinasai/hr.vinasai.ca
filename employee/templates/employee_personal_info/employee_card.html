@@ -6,12 +6,12 @@
 {% if is_letter_download %}
   <!-- Letter Download Mode - Generate PDF content -->
   {% if letter_type == "offer" %}
-    <!-- Offer Letter Template -->
+    <!-- Agreement of Employment Template -->
     <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
-      <title>Offer Letter – VinaSai Inc</title>
+      <title>Agreement of Employment – VinaSai Inc</title>
       <style>
         body {
           font-family: Arial, sans-serif;
@@ -83,7 +83,7 @@
         {% if employee.zip %}<br>{{ employee.zip }}{% endif %}
       </p>
 
-      <h2>LETTER OF OFFER</h2>
+      <h2>Agreement of Employment</h2>
 
       <p>Dear {{ employee.employee_first_name }},</p>
 
@@ -249,7 +249,7 @@
         {% if employee.zip %}<br>{{ employee.zip }}{% endif %}
       </p>
 
-      <h2>AGREEMENT OF EMPLOYMENT</h2>
+      <h2>Offer of Employment</h2>
 
       <p>Dear {{ employee.employee_first_name }},</p>
 
@@ -277,8 +277,7 @@
       <div class="signature-block" style="margin-top: 20px; font-size: 14px; line-height: 1.2;">
         <p>Employee Signature: ______________________ Date: ___________</p>
         <p>{{ employee.get_full_name }}</p>
-        <p>Company Representative: ______________________ Date: ___________</p>
-        <p>VinaSai Inc<br>Human Resources Department</p>
+        
       </div>
       
       <div class="no-print" style="margin-top: 30px; text-align: center; font-size: 10px; color: #666; padding-top: 10px;">
@@ -368,12 +367,12 @@
                       <li class="oh-dropdown__item">
                         <a href="{% url 'employee-view-update' emp.id %}" class="oh-dropdown__link">{% trans "Edit" %}</a>
                       </li>
-                      <!-- <li class="oh-dropdown__item">
+                      <li class="oh-dropdown__item">
                         <a href="#" class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#agreementModal" onclick="event.stopPropagation(); populateAgreementModal('{{ emp.get_full_name|escapejs }}', '{{ emp.email|escapejs }}', '{{ emp.address|escapejs }}', '{{ emp.country|escapejs }}', '{{ emp.state|escapejs }}', '{{ emp.city|escapejs }}', '{{ emp.zip|escapejs }}', '{{ emp.nic_number|escapejs }}', '{{ emp.employee_work_info.department_id|escapejs }}', '{{ emp.employee_work_info.job_position_id|escapejs }}', '{{ emp.employee_work_info.basic_salary|default:10000 }}')">{%trans "Offer Letter" %}</a>
                       </li>
                       <li class="oh-dropdown__item">
-                        <a href="#" class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#agreementModal" onclick="event.stopPropagation(); populateAgreementLetterModal('{{ emp.get_full_name|escapejs }}', '{{ emp.email|escapejs }}', '{{ emp.address|escapejs }}', '{{ emp.country|escapejs }}', '{{ emp.state|escapejs }}', '{{ emp.city|escapejs }}', '{{ emp.zip|escapejs }}', '{{ emp.nic_number|escapejs }}', '{{ emp.employee_work_info.department_id|escapejs }}', '{{ emp.employee_work_info.job_position_id|escapejs }}', '{{ emp.employee_work_info.basic_salary|default:10000 }}')">{%trans "Agreement Letter" %}</a>
-                      </li> -->
+                        <a href="#" class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#agreementModal" onclick="event.stopPropagation(); populateAgreementLetterModal('{{ emp.get_full_name|escapejs }}', '{{ emp.email|escapejs }}', '{{ emp.address|escapejs }}', '{{ emp.country|escapejs }}', '{{ emp.state|escapejs }}', '{{ emp.city|escapejs }}', '{{ emp.zip|escapejs }}', '{{ emp.nic_number|escapejs }}', '{{ emp.employee_work_info.department_id|escapejs }}', '{{ emp.employee_work_info.job_position_id|escapejs }}', '{{ emp.employee_work_info.basic_salary|default:10000 }}')">{%trans " Agreement Letter " %}</a>
+                      </li>
                     {% endif %}
                     {% if profile_edit_enabled %}
                       {% if perms.employee.change_employee or request.user|check_manager:emp %}
@@ -475,7 +474,7 @@
 <div class="oh-modal" id="agreementModal" role="dialog" aria-labelledby="agreementModalLabel" aria-hidden="true">
   <div class="oh-modal__dialog">
     <div class="oh-modal__dialog-header">
-      <h2 class="oh-modal__dialog-title" id="agreementModalLabel">{% trans "Employee Agreement Details" %}</h2>
+      <h2 class="oh-modal__dialog-title" id="agreementModalLabel">{% trans "Employee  Details" %}</h2>
       <div style="display: flex; gap: 10px;">
         <button class="oh-btn oh-btn--secondary" id="downloadPdfBtn" title="{% trans 'Download PDF' %}" style="padding: 8px 12px;">
           <ion-icon name="download-outline" style="font-size: 16px;"></ion-icon>
@@ -491,7 +490,7 @@
         <div class="col-12">
           <div class="oh-card">
             <div class="oh-card__header">
-              <h5 class="oh-card__title">{% trans "Employee Agreement" %}</h5>
+              <h5 class="oh-card__title">{% trans "Employee Letter" %}</h5>
             </div>
             <div class="oh-card__body">
               <div id="agreement-content" style="max-height: 600px; overflow-y: auto; padding: 20px; border: 1px solid #ddd; background: #fff;">
@@ -526,166 +525,148 @@ function populateAgreementModal(name, email, address, country, state, city, zip,
     }
 
     // Create the offer letter HTML with employee data
-    const offerLetterHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <title>Offer Letter – VinaSai Inc</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          line-height: 1.6;
-          margin: 20px;
-          color: #000;
-          font-size: 12px;
-        }
-        .header {
-          text-align: right;
-        }
-        .logo {
-          float: left;
-          height: 60px;
-          margin-right: 30px;
-          margin-bottom: 10px;
-        }
-        h2 {
-          text-align: center;
-          margin-top: 20px;
-          font-size: 18px;
-        }
-        .section-title {
-          font-weight: bold;
-          margin-top: 20px;
-          text-decoration: underline;
-          font-size: 14px;
-        }
-        .signature-block {
-          margin-top: 20px;
-          font-size: 14px;
-          line-height: 1.2;
-        }
-        p {
-          margin-bottom: 10px;
-        }
-        ul {
-          margin-bottom: 15px;
-        }
-        li {
-          margin-bottom: 5px;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="header">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-          <div>
-            <img src="/static/images/upload/company_logo-BMMeMV2Q.avif" alt="VinaSai Inc Logo" class="logo">
-            <strong style="font-size: 16px; font-family: 'Alice', serif;">VinaSai Inc</strong>
-          </div>
-          <div style="text-align: right; font-size: 12px;">
-            4544 Sheppard Ave E Unit 231,<br>
-            Scarborough, ON M1S 1V2, Canada<br>
-            <span style="font-size: 11px;">info@vinasai.ca <br> +1-416-633-3628</span>
-          </div>
-        </div>
-      </div>
+    const offerLetterHTML = `<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Offer_Letter_${name.replace(/[^a-zA-Z0-9_-]/g, '_')}.pdf</title>
+            <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+            <style>
+                @page {
+                    margin: 0;
+                    size: A4;
+                    @bottom-left { content: none; }
+                    @bottom-right { content: none; }
+                    @top-left { content: none; }
+                    @top-right { content: none; }
+                    @bottom-center { content: none; }
+                    @top-center { content: none; }
+                }
+                @media print {
+                    @page { 
+                        margin: 0; 
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+                    body { 
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                        margin: 0.5in;
+                    }
+                    * {
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+                }
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    color: #000;
+                    font-size: 12px;
+                    line-height: 1.6;
+                    max-width: none;
+                }
+                .header {
+                    text-align: left;
+                    margin-bottom: 30px;
+                    padding-bottom: 20px;
+                    position: relative;
+                }
+                .header-image {
+                    width: 100%;
+                    max-height: 80px;
+                    object-fit: contain;
+                    margin-bottom: 15px;
+                }
+                .logo {
+                    float: left;
+                    height: 60px;
+                    margin-right: 30px;
+                    margin-bottom: 10px;
+                }
+                h2 {
+                    text-align: center;
+                    margin-top: 20px;
+                    font-size: 18px;
+                }
+                .section-title {
+                    font-weight: bold;
+                    margin-top: 20px;
+                    text-decoration: underline;
+                    font-size: 14px;
+                }
+                .signature-block {
+                    margin-top: 20px;
+                    font-size: 14px;
+                    line-height: 1.2;
+                }
+                p {
+                    margin-bottom: 10px;
+                }
+                ul {
+                    margin-bottom: 15px;
+                }
+                li {
+                    margin-bottom: 5px;
+                }
+                @media print {
+                    .no-print {
+                        display: none;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <img src="/static/images/upload/header.png" alt="Header" class="header-image">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 10px;">
+                    <div>
+                        <img src="/static/images/upload/logo.jpeg" alt="VinaSai Inc Logo" class="logo">
+                        <strong style="font-size: 16px; font-family: 'Alice', serif;">VinaSai Inc</strong>
+                    </div>
+                    <div style="text-align: right; font-size: 12px;">
+                        4544 Sheppard Ave E Unit 231,<br>
+                        Scarborough, ON M1S 1V2, Canada<br>
+                        <span style="font-size: 11px;">info@vinasai.ca <br> +1-416-633-3628</span>
+                    </div>
+                </div>
+            </div>
 
-      <p><strong>Date:</strong> ${new Date().toLocaleDateString('en-GB')}</p>
-
-      <p>
-        <strong>To:</strong><br>
-        ${name}<br>
-        ${formattedAddress}
-      </p>
-
-      <h2>LETTER OF OFFER</h2>
-
-      <p>Dear ${name},</p>
-
-      <p>
-        It is my pleasure to extend this offer of internship, full-time employment to you in the position of <strong>${position || 'Software Engineering Intern'}</strong> with VinaSai Inc. This letter will serve to summarize the term of employment, including duties, compensation, work hours, vacation, and other important employment practices. Accepting this offer, you agree that the following terms of employment will apply:
-      </p>
-
-      <div class="section-title">Employment Information</div>
-
-      <p>
-        ${name} ("Employee"), holder of NIC number <strong>${nic || ''}</strong>, residing at <strong>${formattedAddress.replace(/<br>/g, ', ')}</strong>, accepts the offer of employment from VinaSai Inc ("Employer"), located at 4544 Sheppard Avenue East, Unit 231, Scarborough, Ontario, Canada and agrees that the Employee will at all times faithfully, industriously, and to the best of your skills, ability, experience, and talents, perform all of the duties (mentioned below) required of the position.
-      </p>
-      <p>
-        In carrying out these duties and responsibilities, the Employee shall comply with all company policies, procedures, rules, and regulations, both written and oral, as are announced by the Employer from time to time. It is also understood and agreed by the Employee that his duties, responsibilities, and reporting arrangements may be changed by the Employer at its sole discretion without causing termination of this agreement.
-      </p>
-
-      <div class="section-title">Basic Duties and Responsibilities</div>
-
-      <ul>
-        <li>Contribute to projects, coding, testing, and debugging of software components under the guidance of senior developers.</li>
-        <li>Work closely with product managers, UI/UX designers, and QA engineers to ensure the delivery of solutions that meet project requirements.</li>
-        <li>Help maintain existing codebases by assisting in code reviews, testing, bug fixes, and writing clean code.</li>
-        <li>Communicate effectively.</li>
-        <li>Attend meetings, skill-sharing sessions, and technical training sessions to continuously improve coding and problem-solving skills.</li>
-      </ul>
-
-      <div class="section-title">Compensation</div>
-
-      <p>
-        Upon full appointment, the Employee shall work 40 hours per week, scheduled as 5 days of 8 hours each.
-      </p>
-      <p>
-        For this, the Employee shall receive a basic monthly salary of <strong>LKR ${basicSalary ? basicSalary.toLocaleString() : '10,000'}</strong>, during the first month of employment.
-      </p>
-
-      <div class="section-title">Performance Reviews</div>
-
-      <p>
-        The Employee will be provided with a verbal Performance Review at least once per week and said appraisal will be reviewed at which time all aspects of the assessment can be fully discussed.
-      </p>
-
-      <div class="section-title">Vacation and Leave Policy</div>
-
-      <p>
-        The Employee shall not be entitled to any leave during the six-month internship period. Leave shall only be granted for essential purposes such as important personal matters, work, or studies, and must receive prior approval from the Employer.
-      </p>
-      <p>
-        The employee must make a request via the internal system (Intra) at least three (3) days in advance for non-emergency (scheduled) leave. If an application is not submitted within the allotted period, the leave will be considered unpaid, and the appropriate amount will be subtracted from the employee's pay.
-      </p>
-
-      <div class="section-title">Probation Period</div>
-
-      <p>
-        It is understood and agreed that the first 90 days of employment shall constitute a probationary period during which the Employer may, at its absolute discretion, terminate the Employee's employment for any reason without notice or cause.
-      </p>
-
-      <div class="section-title">Confidentiality & Intellectual Property</div>
-
-      <p>
-        During your internship, you must keep all company, client, financial, and technical information strictly confidential. Such information may only be used for your work duties and must not be shared or misused during or after your employment.
-      </p>
-      <p>
-        All work, designs, or materials created in relation to the company's business will remain the property of the Company. Company trademarks, logos, and software may not be used without prior approval.
-      </p>
-      <p>
-        Any breach of these obligations may lead to disciplinary action, termination, or legal proceedings.
-      </p>
-
-      <div class="section-title">Termination</div>
-
-      <p>
-        The Employee may at any time terminate this agreement and his or her employment by giving not less than 2 months written notice to the Employer. The Employer may also terminate this Agreement and the Employee's employment at any time, without payment, for just cause.
-      </p>
-
-      <p>
-        ${name}, we welcome you to join our organization.
-      </p>
-
-      <div class="signature-block" style="margin-top: 20px; font-size: 14px; line-height: 1.2;">
-        <p>Employee Signature: ______________________ Date: ___________</p>
-        <p>${name}</p>
-        <p>Company Representative: ______________________ Date: ___________</p>
-        <p>VinaSai Inc<br>Human Resources Department</p>
-      </div>
-
-    </body>
+            <p>Date: ${new Date().toLocaleDateString('en-GB')}</p>
+            <p>
+                <strong>To</strong><br>
+                ${name}<br>
+                ${formattedAddress}
+            </p>
+           
+            <h2>Offer of Employment</h2>
+             <p>Dear ${name.split(' ')[0]},</p>
+            <p>
+                Our company, VinaSai Inc, is pleased to extend an agreement of employment to <strong>${name}</strong>, holder of NIC number <strong>${nic || 'xxxxxxxxxxx'}</strong> and residing at <strong>${formattedAddress.replace(/<br>/g, ', ')}</strong>, Sri Lanka.
+            </p>
+            
+            <p>
+                The Employee is hereby appointed to the position of <strong>${position || 'Software Engineering Intern'}</strong>, effective <strong>${new Date().toLocaleDateString('en-GB')}</strong>, with a monthly salary of <strong>LKR ${basicSalary ? parseInt(basicSalary).toLocaleString() : '10,000'}</strong>.
+            </p>
+            <p>
+                We are excited to welcome you to the team and look forward to your contribution to the company's success.
+            </p>
+            <p>Thank you.</p>
+            <p>Sincerely,<br><br>
+                <strong>Mathisugan Rajathurai</strong><br>
+                Founder / CTO
+            </p>
+            <div class="signature-block" style="margin-top: 20px; font-size: 14px; line-height: 1.2;">
+                <p>Offer is accepted by <strong>${name}</strong></p>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span> Signature: ______________________</span>
+                    <span>Date: ___________</span>
+                </div>
+                <p>${name}</p>
+                
+            </div>
+        </body>
     </html>
     `;
 
@@ -725,116 +706,203 @@ function populateAgreementLetterModal(name, email, address, country, state, city
     }
 
     // Create the agreement letter HTML with employee data
-    const agreementLetterHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <title>Agreement Letter – VinaSai Inc</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          line-height: 1.6;
-          margin: 20px;
-          color: #000;
-          font-size: 12px;
-        }
-        .header {
-          text-align: right;
-        }
-        .logo {
-          float: left;
-          height: 60px;
-          margin-right: 30px;
-          margin-bottom: 10px;
-        }
-        h2 {
-          text-align: center;
-          margin-top: 20px;
-          font-size: 18px;
-        }
-        .section-title {
-          font-weight: bold;
-          margin-top: 20px;
-          text-decoration: underline;
-          font-size: 14px;
-        }
-        .signature-block {
-          margin-top: 20px;
-          font-size: 14px;
-          line-height: 1.2;
-        }
-        p {
-          margin-bottom: 10px;
-        }
-        ul {
-          margin-bottom: 15px;
-        }
-        li {
-          margin-bottom: 5px;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="header">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-          <div>
-            <img src="/static/images/upload/company_logo-BMMeMV2Q.avif" alt="VinaSai Inc Logo" class="logo">
-            <strong style="font-size: 16px; font-family: 'Alice', serif;">VinaSai Inc</strong>
-          </div>
-          <div style="text-align: right; font-size: 12px;">
-            4544 Sheppard Ave E Unit 231,<br>
-            Scarborough, ON M1S 1V2, Canada<br>
-            <span style="font-size: 11px;">info@vinasai.ca <br> +1-416-633-3628</span>
-          </div>
-        </div>
-      </div>
+    const agreementLetterHTML = `<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Agreement_Letter_${name.replace(/[^a-zA-Z0-9_-]/g, '_')}.pdf</title>
+            <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+            <style>
+                @page {
+                    margin: 0.5in;
+                    size: A4;
+                    @bottom-left { content: none; }
+                    @bottom-right { content: none; }
+                    @top-left { content: none; }
+                    @top-right { content: none; }
+                    @bottom-center { content: none; }
+                    @top-center { content: none; }
+                }
+                @media print {
+                    @page { margin: 0.5in; }
+                    body { -webkit-print-color-adjust: exact; }
+                }
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 20px;
+                    color: #000;
+                    font-size: 12px;
+                    line-height: 1.6;
+                    max-width: none;
+                }
+                .header {
+                    text-align: left;
+                    margin-bottom: 30px;
+                    padding-bottom: 20px;
+                    position: relative;
+                }
+                .header-image {
+                    width: 100%;
+                    max-height: 80px;
+                    object-fit: contain;
+                    margin-bottom: 15px;
+                }
+                .logo {
+                    float: left;
+                    height: 60px;
+                    margin-right: 30px;
+                    margin-bottom: 10px;
+                }
+                h2 {
+                    text-align: center;
+                    margin-top: 20px;
+                    font-size: 18px;
+                }
+                .section-title {
+                    font-weight: bold;
+                    margin-top: 20px;
+                    text-decoration: underline;
+                    font-size: 14px;
+                }
+                .signature-block {
+                    margin-top: 20px;
+                    font-size: 14px;
+                    line-height: 1.2;
+                }
+                p {
+                    margin-bottom: 10px;
+                }
+                ul {
+                    margin-bottom: 15px;
+                }
+                li {
+                    margin-bottom: 5px;
+                }
+                @media print {
+                    .no-print {
+                        display: none;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <img src="/static/images/upload/header.png" alt="Header" class="header-image">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 10px;">
+                    <div>
+                        <img src="/static/images/upload/logo.jpeg" alt="VinaSai Inc Logo" class="logo">
+                        <strong style="font-size: 16px; font-family: 'Alice', serif;">VinaSai Inc</strong>
+                    </div>
+                    <div style="text-align: right; font-size: 12px;">
+                        4544 Sheppard Ave E Unit 231,<br>
+                        Scarborough, ON M1S 1V2, Canada<br>
+                        <span style="font-size: 11px;">info@vinasai.ca <br> +1-416-633-3628</span>
+                    </div>
+                </div>
+            </div>
 
-      <p><strong>Date:</strong> ${new Date().toLocaleDateString('en-GB')}</p>
+            <p>Date: ${new Date().toLocaleDateString('en-GB')}</p>
+            <p>
+                <strong>To:</strong><br>
+                ${name}<br>
+                ${formattedAddress}
+            </p>
 
-      <p>
-        <strong>To:</strong><br>
-        ${name}<br>
-        ${formattedAddress}
-      </p>
+            <h2>Agreement of Employment</h2>
 
-      <h2>AGREEMENT OF EMPLOYMENT</h2>
+            <p>Dear ${name.split(' ')[0]},</p>
 
-      <p>Dear ${name.split(' ')[0]},</p>
+            <p>
+                It is my pleasure to extend this offer of internship, full-time employment to you in the position of <strong>${position || 'Software Engineering Intern'}</strong> with VinaSai Inc. This letter will serve to summarize the term of employment, including duties, compensation, work hours, vacation, and other important employment practices. Accepting this offer, you agree that the following terms of employment will apply:
+            </p>
 
-      <p>
-        This agreement confirms your employment with VinaSai Inc. as a <strong>${position || 'Software Engineer'}</strong>. The terms and conditions of your employment are outlined in this agreement.
-      </p>
+            <div class="section-title">Employment Information</div>
 
-      <div class="section-title">Employment Terms</div>
+            <p>
+                ${name} ("Employee"), holder of NIC number <strong>${nic || ''}</strong>, residing at <strong>${formattedAddress.replace(/<br>/g, ', ')}</strong>, accepts the offer of employment from VinaSai Inc ("Employer"), located at 4544 Sheppard Avenue East, Unit 231, Scarborough, Ontario, Canada and agrees that the Employee will at all times faithfully, industriously, and to the best of your skills, ability, experience, and talents, perform all of the duties (mentioned below) required of the position.
+            </p>
+            <p>
+                In carrying out these duties and responsibilities, the Employee shall comply with all company policies, procedures, rules, and regulations, both written and oral, as are announced by the Employer from time to time. It is also understood and agreed by the Employee that his duties, responsibilities, and reporting arrangements may be changed by the Employer at its sole discretion without causing termination of this agreement.
+            </p>
 
-      <p>
-        This Employment Agreement is entered into between VinaSai Inc. ("Company") and ${name} ("Employee"), effective from the date of signing.
-      </p>
+            <div class="section-title">Basic Duties and Responsibilities</div>
 
-      <p>
-        The Employee agrees to work diligently and to the best of their ability, maintaining confidentiality and adhering to all company policies and procedures.
-      </p>
+            <ul>
+                <li>Contribute to projects, coding, testing, and debugging of software components under the guidance of senior developers.</li>
+                <li>Work closely with product managers, UI/UX designers, and QA engineers to ensure the delivery of solutions that meet project requirements.</li>
+                <li>Help maintain existing codebases by assisting in code reviews, testing, bug fixes, and writing clean code.</li>
+                <li>Communicate effectively.</li>
+                <li>Attend meetings, skill-sharing sessions, and technical training sessions to continuously improve coding and problem-solving skills.</li>
+            </ul>
+              <br/>
+            <div class="section-title">Compensation</div>
 
-      <p>Thank you.</p>
+            <p>
+                Upon full appointment, the Employee shall work 40 hours per week, scheduled as 5 days of 8 hours each.
+            </p>
+            <p>
+                For this, the Employee shall receive a basic monthly salary of <strong>LKR ${basicSalary ? parseInt(basicSalary).toLocaleString() : '10,000'}</strong>, during the first month of employment.
+            </p>
 
-      <p>Sincerely,<br><br>
-        <strong>Mathisugan Rajathurai</strong><br>
-        Founder / CTO
-      </p>
+            <div class="section-title">Performance Reviews</div>
 
-      <div class="signature-block" style="margin-top: 20px; font-size: 14px; line-height: 1.2;">
-        <p>Employee Signature: ______________________ Date: ___________</p>
-        <p>${name}</p>
-        <p>Company Representative: ______________________ Date: ___________</p>
-        <p>VinaSai Inc<br>Human Resources Department</p>
-      </div>
-      
-      <div class="no-print" style="margin-top: 30px; text-align: center; font-size: 10px; color: #666; padding-top: 10px;">
-        <p><em>To download as PDF: Press Ctrl+P (Windows) or Cmd+P (Mac) and select "Save as PDF"</em></p>
-      </div>
+            <p>
+                The Employee will be provided with a verbal Performance Review at least once per week and said appraisal will be reviewed at which time all aspects of the assessment can be fully discussed.
+            </p>
 
-    </body>
+            <div class="section-title">Vacation and Leave Policy</div>
+
+            <p>
+                The Employee shall not be entitled to any leave during the six-month internship period. Leave shall only be granted for essential purposes such as important personal matters, work, or studies, and must receive prior approval from the Employer.
+            </p>
+            <p>
+                The employee must make a request via the internal system (Intra) at least three (3) days in advance for non-emergency (scheduled) leave. If an application is not submitted within the allotted period, the leave will be considered unpaid, and the appropriate amount will be subtracted from the employee's pay.
+            </p>
+
+            <div class="section-title">Probation Period</div>
+
+            <p>
+                It is understood and agreed that the first 90 days of employment shall constitute a probationary period during which the Employer may, at its absolute discretion, terminate the Employee's employment for any reason without notice or cause.
+            </p>
+
+            <div class="section-title">Confidentiality & Intellectual Property</div>
+
+            <p>
+                During your internship, you must keep all company, client, financial, and technical information strictly confidential. Such information may only be used for your work duties and must not be shared or misused during or after your employment.
+            </p>
+            <p>
+                All work, designs, or materials created in relation to the company's business will remain the property of the Company. Company trademarks, logos, and software may not be used without prior approval.
+            </p>
+            <p>
+                Any breach of these obligations may lead to disciplinary action, termination, or legal proceedings.
+            </p>
+
+            <div class="section-title">Termination</div>
+
+            <p>
+                The Employee may at any time terminate this agreement and his or her employment by giving not less than 2 months written notice to the Employer. The Employer may also terminate this Agreement and the Employee's employment at any time, without payment, for just cause.
+            </p>
+
+            <p>
+                ${name.split(' ')[0]}, we welcome you to join our organization.
+            </p>
+
+            <p>Sincerely,<br><br>
+                <strong>Mathi Sugan Rajathurai</strong><br>
+                Founder / CTO
+            </p>
+
+            <div class="signature-block" style="margin-top: 20px; font-size: 14px; line-height: 1.2;">
+                <p>By signing below, you agree to the terms and conditions of this letter.<strong>${name}</strong></p>
+                <br><br>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Employee Signature: ______________________</span>
+                    <span>Date: ___________</span>
+                </div>
+                
+               
+            </div>
+        </body>
     </html>
     `;
 
