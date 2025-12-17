@@ -6,11 +6,13 @@ class FacedetectionConfig(AppConfig):
     name = "facedetection"
 
     def ready(self):
-        from django.urls import include, path
-
-        from horilla.urls import urlpatterns
-
-        urlpatterns.append(
-            path("api/facedetection/", include("facedetection.urls")),
-        )
+        try:
+            from django.urls import include, path
+            from horilla.urls import urlpatterns
+            urlpatterns.append(
+                path("api/facedetection/", include("facedetection.urls")),
+            )
+        except ImportError:
+            # Ignore import errors to allow server to start
+            pass
         super().ready()

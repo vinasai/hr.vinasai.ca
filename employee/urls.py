@@ -425,4 +425,5 @@ urlpatterns = [
         name="employee-tag-delete",
         kwargs={"model": EmployeeTag, "HttpResponse": True},
     ),
+    path("download-letter/", views.download_letter, name="download-letter"),
 ]

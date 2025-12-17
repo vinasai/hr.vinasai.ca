@@ -3654,3 +3654,85 @@ def employee_tag_update(request, tag_id):
         "base/employee_tag/employee_tag_form.html",
         {"form": form, "tag_id": tag_id},
     )
+
+
+@login_required
+def download_letter(request):
+    """
+    Download employee letter (offer letter or agreement letter) using employee_card.html template
+    """
+    if request.method == "POST":
+        employee_id = request.POST.get('employee_id')
+        letter_type = request.POST.get('letter_type')
+        
+        try:
+            employee = Employee.objects.get(id=employee_id)
+            
+            # Check if user can access this employee's data
+            if not (request.user.is_superuser or 
+                    request.user.employee_get == employee or 
+                    request.user.has_perm('employee.view_employee')):
+                messages.error(request, _("You don't have permission to download this letter."))
+                return redirect('employee-profile')
+            
+            # Set letter type context
+            context = {
+                'employee': employee,
+                'letter_type': letter_type,
+                'is_letter_download': True
+            }
+            
+            # Render the employee card template with letter context
+            template_name = "employee_personal_info/employee_card.html"
+            html_string = render_to_string(template_name, context, request=request)
+            
+            # Generate PDF using WeasyPrint
+            try:
+                from weasyprint import HTML, CSS
+                from django.conf import settings
+                import base64
+                
+                # Create WeasyPrint HTML object with base URL for static files
+                base_url = request.build_absolute_uri('/')
+                pdf_html = HTML(string=html_string, base_url=base_url)
+                
+                # Generate PDF
+                pdf = pdf_html.write_pdf()
+                
+                # Set filename based on letter type
+                employee_name = f"{employee.employee_first_name}_{employee.employee_last_name}".replace(" ", "_")
+                filename = f"{letter_type.title()}_Letter_{employee_name}.pdf"
+                
+                # Create PDF response with proper headers
+                response = HttpResponse(pdf, content_type='application/pdf')
+                response['Content-Disposition'] = f'attachment; filename="{filename}"'
+                response['Content-Length'] = len(pdf)
+                return response
+                
+            except ImportError:
+                # Fallback: Force download as HTML file
+                employee_name = f"{employee.employee_first_name}_{employee.employee_last_name}".replace(" ", "_")
+                filename = f"{letter_type.title()}_Letter_{employee_name}.html"
+                
+                response = HttpResponse(html_string, content_type='text/html')
+                response['Content-Disposition'] = f'attachment; filename="{filename}"'
+                return response
+            except Exception as e:
+                # If PDF generation fails, return error message
+                messages.error(request, f"Error generating PDF: {str(e)}. Downloading as HTML instead.")
+                
+                employee_name = f"{employee.employee_first_name}_{employee.employee_last_name}".replace(" ", "_")
+                filename = f"{letter_type.title()}_Letter_{employee_name}.html"
+                
+                response = HttpResponse(html_string, content_type='text/html')
+                response['Content-Disposition'] = f'attachment; filename="{filename}"'
+                return response
+                
+        except Employee.DoesNotExist:
+            messages.error(request, _("Employee not found."))
+            return redirect('employee-profile')
+        except Exception as e:
+            messages.error(request, f"Error generating letter: {str(e)}")
+            return redirect('employee-profile')
+    
+    return redirect('employee-profile')
