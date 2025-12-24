@@ -66,6 +66,7 @@ function downloadCurrentOfferLetter() {
     const employeeDepartment = "{{ request.user.employee_get.employee_work_info.department_id|default:''|escapejs }}";
     const employeePosition = "{{ request.user.employee_get.employee_work_info.job_position_id|default:''|escapejs }}";
     const employeeSalary = {{ request.user.employee_get.employee_work_info.basic_salary|default:"10000" }};
+    const employeeDateJoining = "{{ request.user.employee_get.employee_work_info.date_joining|date:'d/m/Y'|escapejs }}";
 
     // Format address properly for formal letter
     let formattedAddress = '';
@@ -208,7 +209,7 @@ function downloadCurrentOfferLetter() {
                 </p>
                 
                 <p>
-                    The Employee is hereby appointed to the position of <strong>${employeePosition || 'Software Engineering Intern'}</strong>, effective <strong>${new Date().toLocaleDateString('en-GB')}</strong>, with a monthly salary of <strong>LKR ${employeeSalary ? employeeSalary.toLocaleString() : '10,000'}</strong>.
+                    The Employee is hereby appointed to the position of <strong>${employeePosition || 'Software Engineering Intern'}</strong>, effective <strong>${employeeDateJoining }</strong>, with a monthly salary of <strong>LKR ${employeeSalary ? employeeSalary.toLocaleString() : '10,000'}</strong>.
                 </p>
                 <p>
                     We are excited to welcome you to the team and look forward to your contribution to the company's success.
@@ -257,6 +258,7 @@ function downloadCurrentAgreementLetter() {
     const employeeDepartment = "{{ request.user.employee_get.employee_work_info.department_id|default:''|escapejs }}";
     const employeePosition = "{{ request.user.employee_get.employee_work_info.job_position_id|default:''|escapejs }}";
     const employeeSalary = {{ request.user.employee_get.employee_work_info.basic_salary|default:"10000" }};
+    const employeeDateJoining = "{{ request.user.employee_get.employee_work_info.date_joining|date:'d/m/Y'|escapejs }}";
 
     // Format address properly for formal letter
     let formattedAddress = '';
