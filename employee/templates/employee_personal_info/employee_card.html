@@ -368,10 +368,10 @@
                         <a href="{% url 'employee-view-update' emp.id %}" class="oh-dropdown__link">{% trans "Edit" %}</a>
                       </li>
                       <li class="oh-dropdown__item">
-                        <a href="#" class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#agreementModal" onclick="event.stopPropagation(); populateAgreementModal('{{ emp.get_full_name|escapejs }}', '{{ emp.email|escapejs }}', '{{ emp.address|escapejs }}', '{{ emp.country|escapejs }}', '{{ emp.state|escapejs }}', '{{ emp.city|escapejs }}', '{{ emp.zip|escapejs }}', '{{ emp.nic_number|escapejs }}', '{{ emp.employee_work_info.department_id|escapejs }}', '{{ emp.employee_work_info.job_position_id|escapejs }}', '{{ emp.employee_work_info.basic_salary|default:10000 }}')">{%trans "Offer Letter" %}</a>
+                        <a href="#" class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#agreementModal" onclick="event.stopPropagation(); populateAgreementModal('{{ emp.get_full_name|escapejs }}', '{{ emp.email|escapejs }}', '{{ emp.address|escapejs }}', '{{ emp.country|escapejs }}', '{{ emp.state|escapejs }}', '{{ emp.city|escapejs }}', '{{ emp.zip|escapejs }}', '{{ emp.nic_number|escapejs }}', '{{ emp.employee_work_info.department_id|escapejs }}', '{{ emp.employee_work_info.job_position_id|escapejs }}', '{{ emp.employee_work_info.basic_salary|default:10000 }}', '{{ emp.employee_work_info.date_joining|date:"d/m/Y"|escapejs }}')">{%trans "Offer Letter" %}</a>
                       </li>
                       <li class="oh-dropdown__item">
-                        <a href="#" class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#agreementModal" onclick="event.stopPropagation(); populateAgreementLetterModal('{{ emp.get_full_name|escapejs }}', '{{ emp.email|escapejs }}', '{{ emp.address|escapejs }}', '{{ emp.country|escapejs }}', '{{ emp.state|escapejs }}', '{{ emp.city|escapejs }}', '{{ emp.zip|escapejs }}', '{{ emp.nic_number|escapejs }}', '{{ emp.employee_work_info.department_id|escapejs }}', '{{ emp.employee_work_info.job_position_id|escapejs }}', '{{ emp.employee_work_info.basic_salary|default:10000 }}')">{%trans " Agreement Letter " %}</a>
+                        <a href="#" class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#agreementModal" onclick="event.stopPropagation(); populateAgreementLetterModal('{{ emp.get_full_name|escapejs }}', '{{ emp.email|escapejs }}', '{{ emp.address|escapejs }}', '{{ emp.country|escapejs }}', '{{ emp.state|escapejs }}', '{{ emp.city|escapejs }}', '{{ emp.zip|escapejs }}', '{{ emp.nic_number|escapejs }}', '{{ emp.employee_work_info.department_id|escapejs }}', '{{ emp.employee_work_info.job_position_id|escapejs }}', '{{ emp.employee_work_info.basic_salary|default:10000 }}', '{{ emp.employee_work_info.date_joining|date:"d/m/Y"|escapejs }}')">{%trans " Agreement Letter " %}</a>
                       </li>
                     {% endif %}
                     {% if profile_edit_enabled %}
@@ -505,7 +505,7 @@
 </div>
 
 <script>
-function populateAgreementModal(name, email, address, country, state, city, zip, nic, department, position, basicSalary) {
+function populateAgreementModal(name, email, address, country, state, city, zip, nic, department, position, basicSalary, dateJoining) {
     // Store employee name and salary globally for PDF download
     window.currentEmployeeName = name;
     window.currentEmployeeSalary = basicSalary;
@@ -646,7 +646,7 @@ function populateAgreementModal(name, email, address, country, state, city, zip,
             </p>
             
             <p>
-                The Employee is hereby appointed to the position of <strong>${position || 'Software Engineering Intern'}</strong>, effective <strong>${new Date().toLocaleDateString('en-GB')}</strong>, with a monthly salary of <strong>LKR ${basicSalary ? parseInt(basicSalary).toLocaleString() : '10,000'}</strong>.
+                The Employee is hereby appointed to the position of <strong>${position || 'Software Engineering Intern'}</strong>, effective <strong>${dateJoining || new Date().toLocaleDateString('en-GB')}</strong>, with a monthly salary of <strong>LKR ${basicSalary ? parseInt(basicSalary).toLocaleString() : '10,000'}</strong>.
             </p>
             <p>
                 We are excited to welcome you to the team and look forward to your contribution to the company's success.
@@ -686,7 +686,7 @@ function populateAgreementModal(name, email, address, country, state, city, zip,
     };
 }
 
-function populateAgreementLetterModal(name, email, address, country, state, city, zip, nic, department, position, basicSalary) {
+function populateAgreementLetterModal(name, email, address, country, state, city, zip, nic, department, position, basicSalary, dateJoining) {
     // Store employee name and salary globally for PDF download
     window.currentEmployeeName = name;
     window.currentEmployeeSalary = basicSalary;
